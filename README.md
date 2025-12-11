@@ -36,7 +36,20 @@ pip install -r requirements.txt
 4. Запустить сервер
 uvicorn app.main:app --reload
 
-5. Открыть документацию
+При первом запуске проекта все таблицы создаются автоматически на основе моделей SQLAlchemy.
+
+Если таблицы уже были созданы вручную или через импорт данных, то при попытке отправить POST-запрос может возникнуть ошибка:
+Выполните следующий SQL-запрос для каждой таблицы, чтобы PostgreSQL продолжил нумерацию с нужного значения:
+```
+SELECT setval(
+  pg_get_serial_sequence('"Products_import"', 'id'),
+  (SELECT MAX(id) FROM "Products_import"),
+  true
+);
+```
+Замените "Products_import" на нужное имя таблицы.
+
+6. Открыть документацию
 
 Swagger UI: http://localhost:8000/docs
 ReDoc: http://localhost:8000/redoc
