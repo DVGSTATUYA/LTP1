@@ -43,7 +43,6 @@
 {% endif %}
 
 <script>
-  // Карта для динамических подписей
   const labelMap = {
     "Гостиные": ["Площадь (м²)", "Коэффициент плотности"],
     "Прихожие": ["Ширина (м)", "Высота (м)"],
@@ -68,7 +67,7 @@
   }
 
   ptSelect.addEventListener("change", updateLabels);
-  // Инициализация при загрузке
   updateLabels();
 </script>
 {% endblock %}
+
