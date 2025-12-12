@@ -40,7 +40,7 @@ uvicorn main:app --reload
 
 ```bash
 cd app/frontend
-python app.py
+python app\frontend\app.py
 ```
 
 Интерфейс по ссылке: http://127.0.0.1:5000
