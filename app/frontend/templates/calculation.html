@@ -36,9 +36,9 @@
 
 {% if result is not none %}
   {% if result == -1 %}
-    <p><strong>⚠️ Входные данные некорректны или отсутствуют в справочниках.</strong></p>
+    <p><strong>Входные данные некорректны или отсутствуют в справочниках.</strong></p>
   {% else %}
-    <p><strong>✅ Необходимое количество сырья: {{ result }} ед.</strong></p>
+    <p><strong>Необходимое количество сырья: {{ result }} ед.</strong></p>
   {% endif %}
 {% endif %}
 
@@ -70,4 +70,5 @@
   updateLabels();
 </script>
 {% endblock %}
+
 
