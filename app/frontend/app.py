@@ -6,12 +6,10 @@ app = Flask(__name__)
 app.secret_key = "dev-secret"
 API = "http://127.0.0.1:8000"
 
-# Навигация
 @app.route("/")
 def home():
     return redirect(url_for("products"))
 
-# Продукция
 @app.route("/products")
 def products():
     try:
@@ -23,7 +21,6 @@ def products():
 
 @app.route("/products/add", methods=["GET", "POST"])
 def add_product():
-    # Загружаем справочники для выпадающих списков
     try:
         product_types = requests.get(f"{API}/product_types").json()
         material_types = requests.get(f"{API}/material_types").json()
@@ -41,7 +38,7 @@ def add_product():
             "id": None,
         }
 
-        # Валидация
+
         errors = []
         if not data["product_type"]:
             errors.append("Выберите тип продукта.")
@@ -52,7 +49,6 @@ def add_product():
                 cost = float(data["min_partner_cost"])
                 if cost < 0:
                     errors.append("Минимальная стоимость не может быть отрицательной.")
-                # округление до сотых — делаем на бэке как есть, тут только проверка
             except ValueError:
                 errors.append("Минимальная стоимость должна быть числом.")
         if not data["main_material"]:
@@ -67,7 +63,6 @@ def add_product():
                                    title="Добавление продукта")
 
         try:
-            # Преобразуем типы
             if data["article"] is not None:
                 data["article"] = int(data["article"])
             if data["min_partner_cost"] is not None:
@@ -86,7 +81,6 @@ def add_product():
 
 @app.route("/products/<int:pid>/edit", methods=["GET", "POST"])
 def edit_product(pid: int):
-    # получаем продукт из общего списка
     try:
         products = requests.get(f"{API}/products").json()
         product = next((p for p in products if p["id"] == pid), None)
@@ -153,7 +147,6 @@ def delete_product(pid: int):
         flash(f"Ошибка удаления: {e}", "error")
     return redirect(url_for("products"))
 
-# Цеха — общий список
 @app.route("/workshops")
 def workshops():
     try:
@@ -168,7 +161,6 @@ def workshops():
                            total_workers=total_workers,
                            title="Цеха производства")
 
-# Цеха для конкретного продукта
 @app.route("/products/<int:pid>/workshops")
 def product_workshops(pid: int):
     try:
@@ -191,7 +183,6 @@ def product_workshops(pid: int):
                            total_time=total_time,
                            title="Цеха продукта")
 
-# Калькулятор материалов
 @app.route("/calculation", methods=["GET", "POST"])
 def calculation():
     result = None
@@ -205,7 +196,6 @@ def calculation():
         flash(f"Ошибка загрузки справочников: {e}", "error")
         product_types, material_types = [], []
 
-    # Метки параметров по типу изделия
     param_labels_map = {
         "Гостиные": ("Площадь (м²)", "Коэффициент плотности"),
         "Прихожие": ("Ширина (м)", "Высота (м)"),
@@ -224,16 +214,13 @@ def calculation():
         p1_raw = request.form.get("param1", "").strip()
         p2_raw = request.form.get("param2", "").strip()
 
-        # Сохраняем выбранное, чтобы не сбрасывались выпадающие списки
         selected_type_id = pt_id_raw or None
         selected_material_id = mt_id_raw or None
 
-        # Если меняли тип — просто обновляем метки, не считаем
         chosen_pt = next((p for p in product_types if str(p["id"]) == selected_type_id), None)
         if chosen_pt and chosen_pt["product_type"] in param_labels_map:
             labels = param_labels_map[chosen_pt["product_type"]]
 
-        # Проверяем, заполнены ли все поля для расчёта
         if not (pt_id_raw and mt_id_raw and qty_raw and p1_raw and p2_raw):
             flash("Заполните все поля перед расчётом.", "error")
             return render_template("calculation.html",
@@ -278,7 +265,6 @@ def calculation():
         except Exception as e:
             flash(f"Ошибка расчёта: {e}", "error")
 
-        # Обновляем метки после расчёта
         chosen_pt = next((p for p in product_types if p["id"] == pt_id), None)
         if chosen_pt and chosen_pt["product_type"] in param_labels_map:
             labels = param_labels_map[chosen_pt["product_type"]]
@@ -294,4 +280,5 @@ def calculation():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
