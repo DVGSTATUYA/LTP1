@@ -36,6 +36,8 @@ uvicorn main:app --reload
 
 ### Фронтенд Flask
 
+Запускать через виртуальное окружение
+
 ```bash
 cd app/frontend
 python app.py
