@@ -26,10 +26,10 @@
     <h2>Компания «Комфорт»</h2>
   </header>
   <nav>
-    <a href="{{ url_for('products') }}">📦 Продукция</a>
-    <a href="{{ url_for('workshops') }}">🏭 Цеха</a>
-    <a href="{{ url_for('calculation') }}">📐 Расчёт сырья</a>
-    <a href="{{ url_for('add_product') }}">➕ Добавить продукт</a>
+    <a href="{{ url_for('products') }}">Продукция</a>
+    <a href="{{ url_for('workshops') }}">Цеха</a>
+    <a href="{{ url_for('calculation') }}">Расчёт сырья</a>
+    <a href="{{ url_for('add_product') }}">Добавить продукт</a>
   </nav>
   <main>
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -42,3 +42,4 @@
   <footer>© 2006–2025</footer>
 </body>
 </html>
+
