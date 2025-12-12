@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>📐 Калькулятор материалов</h2>
+
+<form method="post" id="calc-form">
+  <label>Категория изделия:</label><br>
+  <select name="product_type_id" id="product_type_id" required>
+    {% for pt in product_types %}
+      <option value="{{ pt.id }}" {{ selected_type_id == pt.id|string and "selected" or "" }}>
+        {{ pt.product_type }}
+      </option>
+    {% endfor %}
+  </select><br><br>
+
+  <label>Материал:</label><br>
+  <select name="material_type_id" id="material_type_id" required>
+    {% for mt in material_types %}
+      <option value="{{ mt.id }}" {{ selected_material_id == mt.id|string and "selected" or "" }}>
+        {{ mt.type_material }}
+      </option>
+    {% endfor %}
+  </select><br><br>
+
+  <label>Количество изделий:</label><br>
+  <input type="number" name="quantity" value="1" min="1" required><br><br>
+
+  <label id="param1_label">{{ labels[0] }}</label><br>
+  <input type="number" step="0.0001" name="param1" required><br><br>
+
+  <label id="param2_label">{{ labels[1] }}</label><br>
+  <input type="number" step="0.0001" name="param2" required><br><br>
+
+  <button type="submit" style="background:#355CBD; color:#fff; padding:8px 16px; border:none; border-radius:4px;">📊 Рассчитать</button>
+  <a href="{{ url_for('products') }}" style="margin-left:10px;">⬅️ Назад</a>
+</form>
+
+{% if result is not none %}
+  {% if result == -1 %}
+    <p><strong>⚠️ Входные данные некорректны или отсутствуют в справочниках.</strong></p>
+  {% else %}
+    <p><strong>✅ Необходимое количество сырья: {{ result }} ед.</strong></p>
+  {% endif %}
+{% endif %}
+
+<script>
+  // Карта для динамических подписей
+  const labelMap = {
+    "Гостиные": ["Площадь (м²)", "Коэффициент плотности"],
+    "Прихожие": ["Ширина (м)", "Высота (м)"],
+    "Мягкая мебель": ["Объём (м³)", "Коэффициент наполнителя"],
+    "Кровати": ["Длина (м)", "Ширина (м)"],
+    "Шкафы": ["Ширина (м)", "Высота (м)"],
+    "Комоды": ["Площадь фасада (м²)", "Толщина материала (мм)"]
+  };
+
+  const ptSelect = document.getElementById("product_type_id");
+  const p1Label = document.getElementById("param1_label");
+  const p2Label = document.getElementById("param2_label");
+  const typeNames = {{ product_types|tojson }};
+
+  function updateLabels() {
+    const chosenId = parseInt(ptSelect.value, 10);
+    const chosen = typeNames.find(t => t.id === chosenId);
+    const name = chosen ? chosen.product_type : null;
+    const labels = labelMap[name] || ["Параметр 1", "Параметр 2"];
+    p1Label.textContent = labels[0];
+    p2Label.textContent = labels[1];
+  }
+
+  ptSelect.addEventListener("change", updateLabels);
+  // Инициализация при загрузке
+  updateLabels();
+</script>
+{% endblock %}

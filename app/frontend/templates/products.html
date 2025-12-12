@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>📦 Продукция</h2>
+
+<div style="margin-bottom:10px;">
+  <a href="{{ url_for('add_product') }}" style="background:#355CBD; color:#fff; padding:8px 12px; border-radius:4px; text-decoration:none;">➕ Добавить</a>
+</div>
+
+{% set sorted_products = products|sort(attribute='id') %}
+{% if not sorted_products %}
+<p>Нет продукции.</p>
+{% else %}
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse; width:100%;">
+  <tr style="background:#D2DFFF; color:#355CBD;">
+    <th>ID</th><th>Тип</th><th>Название</th><th>Артикул</th>
+    <th>Цена</th><th>Материал</th><th>Время пр-ва</th><th>Действия</th>
+  </tr>
+  {% for p in sorted_products %}
+  <tr>
+    <td>{{ p.id }}</td>
+    <td>{{ p.product_type }}</td>
+    <td><a href="{{ url_for('edit_product', pid=p.id) }}" title="Редактировать">{{ p.product_name }}</a></td>
+    <td>{{ p.article }}</td>
+    <td>{{ "%.2f"|format(p.min_partner_cost) if p.min_partner_cost is not none else "" }}</td>
+    <td>{{ p.main_material }}</td>
+    <td>{{ p.manufacturing_time }}</td>
+    <td style="white-space:nowrap;">
+      <a href="{{ url_for('edit_product', pid=p.id) }}">✏️</a>
+      <a href="{{ url_for('delete_product', pid=p.id) }}" onclick="return confirm('Удалить продукт?');">🗑️</a>
+      <a href="{{ url_for('product_workshops', pid=p.id) }}" title="Цеха продукта">🏭</a>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

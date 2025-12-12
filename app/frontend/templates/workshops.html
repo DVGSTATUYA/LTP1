@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>🏭 Цеха производства</h2>
+
+{% set sorted_workshops = workshops|sort(attribute='id') %}
+{% if not sorted_workshops %}
+<p>Нет данных о цехах.</p>
+{% else %}
+<div style="display:flex; gap:40px; margin-bottom:20px;">
+  <div style="background:#D2DFFF; padding:15px; border-radius:8px; border:1px solid #355CBD;">
+    <strong>Всего цехов:</strong> {{ sorted_workshops|length }}
+  </div>
+  <div style="background:#D2DFFF; padding:15px; border-radius:8px; border:1px solid #355CBD;">
+    <strong>Общее число работников:</strong> {{ total_workers }}
+  </div>
+</div>
+
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse; width:100%;">
+  <tr style="background:#D2DFFF; color:#355CBD;">
+    <th>ID</th><th>Название</th><th>Тип</th><th>Работников</th>
+  </tr>
+  {% for w in sorted_workshops %}
+  <tr>
+    <td>{{ w.id }}</td>
+    <td>{{ w.workshop_name }}</td>
+    <td>{{ w.workshop_type }}</td>
+    <td>{{ w.employee_count }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+{% endblock %}
