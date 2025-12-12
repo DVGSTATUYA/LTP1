@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>🏭 Цеха производства</h2>
+<h2>Цеха производства</h2>
 
 {% set sorted_workshops = workshops|sort(attribute='id') %}
 {% if not sorted_workshops %}
@@ -30,3 +30,4 @@
 </table>
 {% endif %}
 {% endblock %}
+
