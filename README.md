@@ -27,9 +27,9 @@ DATABASE_URL=postgresql+psycopg://ИМЯПОЛЬЗОВАТЕЛЯ(стандар�
 
 ## Запуск
 Бэкенд FastAPI
+Через корневую папку
 ```bash
-cd app
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 ```
 Доступ: http://127.0.0.1:8000 
 Документация: http://127.0.0.1:8000/docs
