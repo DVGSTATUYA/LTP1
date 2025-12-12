@@ -1,0 +1,44 @@
+<!-- templates/base.html -->
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>{{ title or "Комфорт" }}</title>
+  <link rel="icon" href="{{ url_for('static', filename='logo.ico') }}">
+  <style>
+    body { margin:0; font-family:Candara, sans-serif; background:#FFFFFF; color:#000; }
+    header { background:#D2DFFF; padding:10px 20px; display:flex; align-items:center; gap:15px; border-bottom:2px solid #355CBD; }
+    header img { width:48px; }
+    header h2 { margin:0; color:#355CBD; }
+    nav { background:#D2DFFF; padding:15px; width:220px; float:left; min-height:100vh; }
+    nav a { display:block; padding:8px; color:#000; text-decoration:none; margin-bottom:5px; border-radius:4px; }
+    nav a:hover { background:#355CBD; color:#fff; }
+    main { margin-left:240px; padding:20px; }
+    footer { clear:both; text-align:center; padding:20px; border-top:1px solid #355CBD; color:#555; }
+    .flash.success { background:#e6ffed; border-left:4px solid #4CAF50; padding:10px; margin:10px 0; }
+    .flash.error { background:#ffe6e6; border-left:4px solid #F44336; padding:10px; margin:10px 0; }
+    .flash.info { background:#e6f0ff; border-left:4px solid #355CBD; padding:10px; margin:10px 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="{{ url_for('static', filename='logo.png') }}" alt="logo">
+    <h2>Компания «Комфорт»</h2>
+  </header>
+  <nav>
+    <a href="{{ url_for('products') }}">Продукция</a>
+    <a href="{{ url_for('workshops') }}">Цеха</a>
+    <a href="{{ url_for('calculation') }}">Расчёт сырья</a>
+    <a href="{{ url_for('add_product') }}">Добавить продукт</a>
+  </nav>
+  <main>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer>© 2006–2025</footer>
+</body>
+</html>

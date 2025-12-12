@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Цеха продукта: {{ product.product_name }}</h2>
+
+<div style="display:flex; gap:40px; margin-bottom:20px;">
+  <div style="background:#D2DFFF; padding:15px; border-radius:8px; border:1px solid #355CBD;">
+    <strong>Всего цехов:</strong> {{ rows|length }}
+  </div>
+  <div style="background:#D2DFFF; padding:15px; border-radius:8px; border:1px solid #355CBD;">
+    <strong>Общее число работников:</strong> {{ total_workers }}
+  </div>
+  <div style="background:#D2DFFF; padding:15px; border-radius:8px; border:1px solid #355CBD;">
+    <strong>Суммарное время (ч):</strong> {{ "%.2f"|format(total_time) }}
+  </div>
+</div>
+
+{% if not rows %}
+<p>Нет данных по цехам для этого продукта.</p>
+{% else %}
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse; width:100%;">
+  <tr style="background:#D2DFFF; color:#355CBD;">
+    <th>ID</th><th>Цех</th><th>Работников</th><th>Время производства, ч</th>
+  </tr>
+  {% for r in rows %}
+  <tr>
+    <td>{{ r.id }}</td>
+    <td>{{ r.workshop_name }}</td>
+    <td>{{ r.employee_count }}</td>
+    <td>{{ r.production_time_h }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<div style="margin-top:12px;">
+  <a href="{{ url_for('products') }}">Назад к продукции</a>
+</div>
+{% endblock %}
