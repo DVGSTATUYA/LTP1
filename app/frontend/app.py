@@ -261,7 +261,7 @@ def calculation():
             if result == -1:
                 flash("Неверные входные данные или отсутствуют типы в справочниках.", "error")
             else:
-                flash(f"✅ Необходимое количество сырья: {result} ед.", "success")
+                flash(f"Необходимое количество сырья: {result} ед.", "success")
         except Exception as e:
             flash(f"Ошибка расчёта: {e}", "error")
 
@@ -280,5 +280,6 @@ def calculation():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
 
 
