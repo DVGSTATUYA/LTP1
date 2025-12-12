@@ -10,11 +10,9 @@ def calculate_raw_material(
     param1: float,
     param2: float,
 ) -> int:
-    # Валидация типов входных данных
     if quantity <= 0 or param1 <= 0 or param2 <= 0:
         return -1
 
-    # Получаем справочники
     pts = fetch_product_types()
     mts = fetch_material_types()
 
@@ -29,5 +27,5 @@ def calculate_raw_material(
     base_raw = param1 * param2 * coeff
     total_raw = base_raw * quantity * (1 + loss / 100.0)
 
-    # Возвращаем целое число, округляя вверх при наличии долей
     return int(total_raw + 0.0000001)
+
