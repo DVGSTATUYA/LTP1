@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<h2>{{ product and "✏️ Редактирование продукта" or "➕ Добавление продукта" }}</h2>
+<h2>{{ product and "Редактирование продукта" or "Добавление продукта" }}</h2>
 
 <form method="post">
   <label>Тип продукта:</label><br>
@@ -29,6 +29,7 @@
   </select><br><br>
 
   <button type="submit" style="background:#355CBD; color:#fff; padding:8px 16px; border:none; border-radius:4px;">Сохранить</button>
-  <a href="{{ url_for('products') }}" style="margin-left:10px;">⬅️ Назад</a>
+  <a href="{{ url_for('products') }}" style="margin-left:10px;">Назад</a>
 </form>
 {% endblock %}
+
