@@ -39,7 +39,7 @@ uvicorn app.main:app --reload
 Запускать через виртуальное окружение
 
 ```bash
-cd app/frontend
+. .venv/Scripts/Activate.ps1
 python app\frontend\app.py
 ```
 
